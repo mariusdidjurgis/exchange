@@ -31,24 +31,22 @@ namespace Exchange
 
                     var mainCurrencyString = match[0].Groups[1].Value;
                     var mainCurrency = mainCurrencyString.StringToCurrency();
-
-                    if (!mainCurrency.HasValue)
-                    {
-                        result = "Unknown currency provided: " + mainCurrencyString;
-                    }
-
                     var moneyCurrencyString = match[0].Groups[2].Value;
                     var moneyCurrency = moneyCurrencyString.StringToCurrency();
 
-                    if (!moneyCurrency.HasValue)
+                    if (!mainCurrency.HasValue || !moneyCurrency.HasValue)
                     {
-                        result = "Unknown currency provided: " + moneyCurrencyString;
+                        result = "Unknown currency provided: " + currencies;
+                    }
+                    else
+                    {
+
                     }
                 }
             }
 
             return result;
         }
-        
+
     }
 }

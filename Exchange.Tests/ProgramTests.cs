@@ -28,7 +28,7 @@ namespace Exchange.Tests
         {
             var result = Program.GenerateResult(new[] { "aaa/dkk", "1" });
 
-            Assert.AreEqual("Unknown currency provided: aaa", result);
+            Assert.AreEqual("Unknown currency provided: aaa/dkk", result);
         }
 
         [TestMethod]
@@ -36,7 +36,7 @@ namespace Exchange.Tests
         {
             var result = Program.GenerateResult(new[] { "eur/aaa", "1" });
 
-            Assert.AreEqual("Unknown currency provided: aaa", result);
+            Assert.AreEqual("Unknown currency provided: eur/aaa", result);
         }
     }
 }
