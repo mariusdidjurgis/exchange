@@ -6,10 +6,13 @@ namespace Exchange.Tests
     public class ProgramTests
     {
         [TestMethod]
-        public void Main_WithEmptyParameters_ShouldPrintUsage()
+        [DataRow(null)]
+        [DataRow(new[] { "" })]
+        public void Main_WithWrongParameters_ShouldReturnUsageMessage(string[] args)
         {
-            var aa = true;
-            Assert.IsTrue(aa);
-        }
+            var result = Program.GenerateResult(args);
+
+            Assert.AreEqual("Usage: Exchange <currency pair> <amount to exchange>", result);
+        }        
     }
 }
