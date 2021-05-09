@@ -38,5 +38,21 @@ namespace Exchange.Tests
 
             Assert.AreEqual("Unknown currency provided: eur/aaa", result);
         }
+
+        [TestMethod]
+        [DataRow(Currency.EUR, Currency.DKK, "7,4394")]
+        [DataRow(Currency.USD, Currency.DKK, "6,6311")]
+        [DataRow(Currency.EUR, Currency.USD, "1,1219")]
+        [DataRow(Currency.EUR, Currency.GBP, "0,8723")]
+        [DataRow(Currency.EUR, Currency.SEK, "9,7758")]
+        [DataRow(Currency.EUR, Currency.NOK, "9,4890")]
+        [DataRow(Currency.EUR, Currency.CHF, "1,0883")]
+        [DataRow(Currency.EUR, Currency.JPY, "124,5296")]
+        public void GenerateResult_WithCorrectCurrencyPair_ShouldCalculateAmount(Currency mainCurrency, Currency moneyCurrency, string expectedAmount)
+        {
+            var result = Program.GenerateResult(new[] { mainCurrency.ToString() + "/" + moneyCurrency.ToString(), "1" });
+
+            Assert.AreEqual(expectedAmount, result);
+        }
     }
 }

@@ -15,24 +15,20 @@ namespace Exchange
         public static string GenerateResult(string[] args)
         {
             var result = "Usage: Exchange <currency pair> <amount to exchange>";
-            var currencyRegex = "([a-zA-Z]{3})/([a-zA-Z]{3})";
 
             if (args != null && args.Length == 2)
             {
                 var currencies = args[0].Trim();
                 var amountString = args[1].Trim();
-                if (!decimal.TryParse(amountString, out decimal amount))
+                if (!decimal.TryParse(amountString, out decimal mainCurrencyAmountToBuy))
                 {
                     result = "Incorrect amount provided";
                 }
                 else
                 {
-                    var match = Regex.Matches(currencies, currencyRegex);
-
-                    var mainCurrencyString = match[0].Groups[1].Value;
-                    var mainCurrency = mainCurrencyString.StringToCurrency();
-                    var moneyCurrencyString = match[0].Groups[2].Value;
-                    var moneyCurrency = moneyCurrencyString.StringToCurrency();
+                    var match = Regex.Matches(currencies, "([a-zA-Z]{3})/([a-zA-Z]{3})");
+                    var mainCurrency= (match[0].Groups[1].Value).StringToCurrency();
+                    var moneyCurrency = (match[0].Groups[2].Value).StringToCurrency();
 
                     if (!mainCurrency.HasValue || !moneyCurrency.HasValue)
                     {
@@ -40,13 +36,13 @@ namespace Exchange
                     }
                     else
                     {
-
+                        var moneyCurrencyRequired = new CurencyExchangeCalculator(mainCurrency.Value, moneyCurrency.Value).CalculateExchangeAmount(mainCurrencyAmountToBuy);
+                        result = moneyCurrencyRequired.ToString("0.0000");
                     }
                 }
             }
 
             return result;
         }
-
     }
 }
